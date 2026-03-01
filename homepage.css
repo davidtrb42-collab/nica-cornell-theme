@@ -1,0 +1,1092 @@
+/* ==========================================================================
+   Nica Cornell — Homepage Stylesheet  v1.2.7
+   Fonts: Inter, Cormorant Garamond
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Custom Properties
+   -------------------------------------------------------------------------- */
+:root {
+    --nc-black:      #0f0f0f;
+    --nc-white:      #ffffff;
+    --nc-cream:      #f7f6f4;
+    --nc-gray:       #767676;
+    --nc-rule:       #e2e0dc;
+    --nc-img-bg:     #1a2035;
+    --nc-serif:         'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --nc-serif-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --nc-sans:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --nc-ease:       cubic-bezier(0.4, 0, 0.2, 1);
+    --nc-max-w:      1280px;
+    --nc-px:         clamp(1.5rem, 5vw, 5rem);
+}
+
+/* --------------------------------------------------------------------------
+   Reset — scoped to .nc-page body
+   -------------------------------------------------------------------------- */
+.nc-page {
+    margin: 0;
+    padding: 0;
+    background: var(--nc-white);
+    color: var(--nc-black);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.nc-page *,
+.nc-page *::before,
+.nc-page *::after {
+    box-sizing: border-box;
+}
+
+.nc-page img {
+    max-width: 100%;
+    display: block;
+}
+
+.nc-page a {
+    text-decoration: none;
+}
+
+.nc-page button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.nc-page h1,
+.nc-page h2,
+.nc-page h3 {
+    margin: 0;
+    font-family: var(--nc-serif);
+    line-height: 1.1;
+}
+
+/* Heading scale — ascending in size, descending in weight for editorial feel */
+.nc-page h1 { font-size: clamp(3rem, 5.5vw, 5rem);       font-weight: 300; letter-spacing: -0.01em; }
+.nc-page h2 { font-size: clamp(1.75rem, 3vw, 2.5rem);    font-weight: 400; }
+.nc-page h3 { font-size: clamp(1.1rem, 1.6vw, 1.35rem);  font-weight: 600; }
+
+.nc-page p {
+    margin: 0;
+}
+
+/* Utility */
+.nc-container {
+    max-width: var(--nc-max-w);
+    margin-inline: auto;
+    padding-inline: var(--nc-px);
+}
+
+/* Admin bar offset */
+.admin-bar .nc-nav { top: 32px; }
+@media screen and (max-width: 782px) {
+    .admin-bar .nc-nav { top: 46px; }
+}
+
+/* --------------------------------------------------------------------------
+   Navigation
+   -------------------------------------------------------------------------- */
+.nc-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    top: 0;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem var(--nc-px);
+    border-bottom: 1px solid transparent;
+    transition:
+        background   0.45s var(--nc-ease),
+        padding      0.35s var(--nc-ease),
+        border-color 0.45s var(--nc-ease);
+}
+
+.nc-nav.is-scrolled {
+    padding: 1.1rem var(--nc-px);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--nc-rule);
+}
+
+/* Logo */
+.nc-nav__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.nc-nav__logo-img {
+    height: 44px;
+    width: auto;
+    display: block;
+    /* Logo asset is white — keep as-is on dark hero */
+    filter: none;
+    transition: filter 0.4s var(--nc-ease);
+    will-change: filter;
+}
+
+/* Invert to black when nav background is solid white */
+.nc-nav.is-scrolled .nc-nav__logo-img {
+    filter: brightness(0);
+}
+
+@media (max-width: 768px) {
+    .nc-nav__logo-img {
+        height: 34px;
+    }
+}
+
+/* Desktop links */
+.nc-nav__links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2.25rem;
+}
+
+.nc-nav__links a {
+    font-family: var(--nc-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-white);
+    transition: color 0.4s, opacity 0.2s, text-shadow 0.4s;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+}
+
+.nc-nav.is-scrolled .nc-nav__links a {
+    color: var(--nc-black);
+    text-shadow: none;
+}
+
+.nc-nav__links a:hover {
+    opacity: 0.5;
+}
+
+/* Hamburger */
+.nc-nav__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 4px;
+    width: 32px;
+    height: 32px;
+    z-index: 910;
+}
+
+.nc-nav__toggle span {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.9);
+    transform-origin: center;
+    transition:
+        background   0.4s,
+        transform    0.3s var(--nc-ease),
+        opacity      0.3s;
+}
+
+.nc-nav.is-scrolled .nc-nav__toggle span,
+.nc-nav.is-open    .nc-nav__toggle span {
+    background: var(--nc-black);
+}
+
+.nc-nav__toggle.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nc-nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+.nc-nav__toggle.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile nav overlay */
+@media (max-width: 768px) {
+    .nc-nav__toggle {
+        display: flex;
+    }
+
+    .nc-nav__links {
+        position: fixed;
+        inset: 0;
+        background: var(--nc-white);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s var(--nc-ease);
+        z-index: 905;
+    }
+
+    .nc-nav.is-open .nc-nav__links {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .nc-nav__links a {
+        color: var(--nc-black) !important;
+        text-shadow: none;
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+.nc-hero {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline: var(--nc-px);
+    overflow: hidden;
+
+    /*
+     * Hero image: replace the background-color below with your image.
+     * Example: background-image: url('/wp-content/uploads/your-hero-image.jpg');
+     * Recommended: dark, high-contrast image (portrait, landscape, texture).
+     */
+    background-color: #151312;
+    background-image: url('/wp-content/uploads/2025/12/HEROHOME.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+/*
+ * Dual-scrim overlay.
+ * Top-to-bottom: protects the nav bar.
+ * Left-to-right: darkens the left panel where the name/tagline sit,
+ * leaving the right side (mountain) as clean as possible.
+ */
+.nc-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.05) 30%, transparent 60%),
+        linear-gradient(to right,  rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.15) 48%, transparent 72%);
+    z-index: 1;
+}
+
+.nc-hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: clamp(280px, 48%, 580px);
+    text-align: left;
+    margin-left: clamp(1rem, 3vw, 3rem);  /* nudge right from the left edge */
+    margin-bottom: 6vh;                    /* nudge above vertical centre    */
+    animation: nc-hero-fadein 0.82s ease-out both;
+}
+
+/* Hero name — large serif display */
+.nc-hero .nc-hero__name {
+    font-family: var(--nc-serif-display);
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--nc-white);
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.75rem;
+}
+
+/* Tagline — uppercase tracking, subordinate to the name */
+.nc-hero .nc-hero__desc {
+    font-family: var(--nc-sans);
+    font-size: clamp(0.75rem, 1.25vw, 0.95rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.65);
+}
+
+/* Hero fade-in */
+@keyframes nc-hero-fadein {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Hero CTA buttons */
+.nc-hero__cta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.nc-btn--hero-primary {
+    display: inline-block;
+    font-family: var(--nc-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--nc-black);
+    background: var(--nc-white);
+    border: 1px solid var(--nc-white);
+    border-radius: 4px;
+    padding: 1.1rem 2.75rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20);
+    transition: background 0.25s var(--nc-ease), color 0.25s var(--nc-ease), box-shadow 0.25s var(--nc-ease);
+}
+
+.nc-btn--hero-primary:hover {
+    background: transparent;
+    color: var(--nc-white);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+}
+
+.nc-btn--hero-ghost {
+    display: inline-block;
+    font-family: var(--nc-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.85);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 4px;
+    padding: 1.1rem 2.75rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transition: border-color 0.25s var(--nc-ease), color 0.25s var(--nc-ease), box-shadow 0.25s var(--nc-ease);
+}
+
+.nc-btn--hero-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.90);
+    color: var(--nc-white);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.20);
+}
+
+/* Mobile hero: vertically centred, full-width content */
+@media (max-width: 768px) {
+    .nc-hero {
+        justify-content: center;
+    }
+
+    .nc-hero::before {
+        /* vignette: protects nav top, darkens centre for legibility */
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.15) 25%,
+            rgba(0, 0, 0, 0.35) 50%,
+            rgba(0, 0, 0, 0.10) 75%,
+            rgba(0, 0, 0, 0.30) 100%
+        );
+    }
+
+    .nc-hero__content {
+        max-width: 100%;
+        margin-left: 0;
+        margin-bottom: 8vh; /* nudge slightly above dead centre */
+    }
+}
+
+@media (max-width: 480px) {
+    .nc-hero__cta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Hero CTA buttons go full-width on small screens for easier tapping */
+    .nc-btn--hero-primary,
+    .nc-btn--hero-ghost {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nc-hero .nc-hero__name {
+        font-size: clamp(2.5rem, 11vw, 3.5rem);
+    }
+
+    /* Tighten content button padding on small screens */
+    .nc-btn--primary,
+    .nc-btn {
+        padding: 0.9rem 2rem;
+    }
+}
+
+/* Scroll indicator — bottom right */
+.nc-hero__scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    right: var(--nc-px);
+    z-index: 2;
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--nc-sans);
+    font-size: 0.55rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.nc-hero__scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.28);
+    animation: nc-scroll-drop 2s ease-in-out infinite;
+    transform-origin: top;
+}
+
+@keyframes nc-scroll-drop {
+    0%   { transform: scaleY(0); opacity: 0; }
+    40%  { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    .nc-hero__scroll { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Section shared
+   -------------------------------------------------------------------------- */
+.nc-section {
+    padding-block: clamp(4.25rem, 8.5vh, 6.8rem);
+    border-top: 1px solid var(--nc-rule);
+}
+
+/* --------------------------------------------------------------------------
+   Publications — section headings, featured grid, all-pubs layout
+   -------------------------------------------------------------------------- */
+
+/* Shared heading used in both Featured and All Publications */
+.nc-pubs-heading {
+    font-family: var(--nc-serif);
+    font-size: clamp(2.125rem, 4.25vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--nc-black);
+    margin-bottom: 1rem;
+}
+
+/* Featured: static 3-column grid */
+.nc-featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .nc-featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Slightly smaller covers in single-column layout */
+    .nc-featured-grid .nc-carousel-card__img-wrap {
+        width: 38%;
+    }
+}
+
+/* All Publications: heading row with slider controls */
+.nc-all-pubs__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.nc-all-pubs__head > div {
+    display: flex;
+    align-items: flex-end;
+    min-width: 0; /* allow heading container to shrink */
+}
+
+/* Button in the all-pubs head must never shrink or wrap */
+.nc-all-pubs__head .nc-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Lightweight slider navigation — centred below the track */
+.nc-slider-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.nc-slider-nav__btn {
+    background: none;
+    border: none;
+    font-family: var(--nc-sans);
+    font-size: 1.25rem;
+    color: var(--nc-gray);
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    transition: color 0.2s var(--nc-ease);
+    line-height: 1;
+}
+
+.nc-slider-nav__btn:hover {
+    color: var(--nc-black);
+}
+
+/* Clip horizontally so cards don't bleed, but allow vertical overflow for tooltips.
+   position + z-index creates a stacking context above .nc-slider-nav so the tooltip
+   isn't painted over by the sibling element that follows in the DOM. */
+.nc-slider-viewport {
+    position: relative;
+    z-index: 1;
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+/* The scrollable track */
+.nc-slider-track {
+    display: grid;
+    grid-auto-flow: column;
+    /* 5 cards with 4 gaps of 2rem each: (100% - 8rem) / 5 */
+    grid-auto-columns: calc((100% - 8rem) / 5);
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-x;
+}
+
+.nc-slider-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Publication card */
+.nc-pub-card {
+    scroll-snap-align: start;
+    min-width: 0;
+}
+
+/* Tablet: 3 cards */
+@media (max-width: 960px) {
+    .nc-slider-track {
+        grid-auto-columns: calc((100% - 4rem) / 3);
+    }
+}
+
+/* Mobile: 1 card, natural swipe */
+@media (max-width: 600px) {
+    .nc-slider-track {
+        grid-auto-columns: 100%;
+    }
+
+    /* Tighter covers in 1-card-per-view mode */
+    .nc-slider-track .nc-carousel-card__img-wrap {
+        width: 48%;
+    }
+
+    /* All Publications head: keep heading + "View All" on one line */
+    .nc-all-pubs__head {
+        gap: 0.75rem;
+        margin-bottom: 1.75rem;
+        align-items: center;
+    }
+
+    .nc-all-pubs__head .nc-pubs-heading {
+        font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+        margin-bottom: 0;
+    }
+
+    .nc-all-pubs__head .nc-btn {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Carousel card — publications carousel
+   -------------------------------------------------------------------------- */
+.nc-carousel-card {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--nc-black);
+    padding-top: 1.5rem;
+    padding-bottom: 1.75rem;
+}
+
+.nc-carousel-card__title {
+    font-family: var(--nc-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--nc-black);
+    margin-bottom: 1.25rem;
+    /* Clamp to 3 lines with ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* min-height = 3 lines × 1.35 line-height, pads short titles to the same height */
+    min-height: 4.05em;
+}
+
+.nc-carousel-card__title a {
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.nc-carousel-card__title a:hover {
+    opacity: 0.55;
+}
+
+.nc-carousel-card__img-wrap {
+    width: 50%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: var(--nc-img-bg);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+/* Wider covers in the slider — cards are ~205px at 5-across; 65% gives
+   a meaningfully more legible cover than the default 50% */
+.nc-slider-track .nc-carousel-card__img-wrap {
+    width: 65%;
+}
+
+.nc-carousel-card__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.5s var(--nc-ease);
+}
+
+.nc-pub-card:hover .nc-carousel-card__img-wrap img {
+    transform: scale(1.04);
+}
+
+.nc-carousel-card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #c8c5bf;
+}
+
+.nc-carousel-card__year {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-black);
+    margin-bottom: 0.5rem;
+}
+
+.nc-carousel-card__publisher {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    color: var(--nc-gray);
+    margin-bottom: 1.5rem;
+}
+
+/* Tagline reveal button + tooltip */
+.nc-tagline-reveal {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.nc-tagline-btn {
+    font-family: var(--nc-serif);
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--nc-gray);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s var(--nc-ease), border-color 0.2s var(--nc-ease);
+}
+
+.nc-tagline-btn:hover {
+    color: var(--nc-black);
+    border-bottom-color: var(--nc-black);
+}
+
+/* Text is stored in the DOM but hidden — the JS portal renders the visible tooltip */
+.nc-tagline-box {
+    display: none;
+}
+
+/* Global fixed tooltip, appended to <body> by JS to escape overflow clipping */
+.nc-tagline-portal {
+    position: fixed;
+    width: 260px;
+    background: #1d242d;
+    padding: 0.85rem 1rem;
+    font-family: var(--nc-sans);
+    font-size: 0.78rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: #ffffff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s var(--nc-ease);
+    z-index: 9999;
+}
+
+/* --------------------------------------------------------------------------
+   About
+   -------------------------------------------------------------------------- */
+.nc-about {
+    background: var(--nc-white);
+}
+
+.nc-about__grid {
+    display: grid;
+    grid-template-columns: 3.75fr 7.25fr;
+    gap: clamp(2.5rem, 5.5vw, 5.5rem);
+    align-items: center;
+}
+
+/* Portrait — circular avatar */
+.nc-about__image-wrap {
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+}
+
+.nc-about__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Placeholder text shown when no image is set */
+.nc-about__image-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(0,0,0,0.25);
+}
+
+.nc-about__name {
+    font-family: var(--nc-serif);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 0.6rem;
+    margin-bottom: 1.75rem;
+}
+
+.nc-about__bio {
+    font-family: var(--nc-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #3a3a3a;
+    margin-bottom: 2.5rem;
+}
+
+.nc-about__bio p + p {
+    margin-top: 1.1rem;
+}
+
+/* Button — secondary (outline, navy) */
+.nc-btn {
+    display: inline-block;
+    font-family: var(--nc-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--nc-img-bg);
+    background: transparent;
+    border: 1px solid var(--nc-img-bg);
+    border-radius: 4px;
+    padding: 1rem 2.75rem;
+    box-shadow: 0 2px 8px rgba(26, 32, 53, 0.10);
+    transition: background 0.25s var(--nc-ease), color 0.25s var(--nc-ease), box-shadow 0.25s var(--nc-ease);
+}
+
+.nc-btn:hover {
+    background: var(--nc-img-bg);
+    color: var(--nc-white);
+    box-shadow: 0 4px 14px rgba(26, 32, 53, 0.22);
+}
+
+/* Button — primary (filled navy, inverts to outline on hover) */
+.nc-btn--primary {
+    display: inline-block;
+    font-family: var(--nc-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--nc-white);
+    background: var(--nc-img-bg);
+    border: 1px solid var(--nc-img-bg);
+    border-radius: 4px;
+    padding: 1rem 2.75rem;
+    box-shadow: 0 2px 10px rgba(26, 32, 53, 0.22);
+    transition: background 0.25s var(--nc-ease), color 0.25s var(--nc-ease), box-shadow 0.25s var(--nc-ease);
+}
+
+.nc-btn--primary:hover {
+    background: transparent;
+    color: var(--nc-img-bg);
+    box-shadow: 0 4px 14px rgba(26, 32, 53, 0.14);
+}
+
+@media (max-width: 768px) {
+    .nc-about__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nc-about__image-wrap {
+        max-width: 230px;
+        margin-inline: auto;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Contact section
+   -------------------------------------------------------------------------- */
+.nc-all-pubs {
+    background: var(--nc-cream);
+}
+
+.nc-contact {
+    background: var(--nc-cream);
+}
+
+.nc-contact__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+}
+
+.nc-contact__heading {
+    font-family: var(--nc-serif);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-top: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.nc-contact__subtext {
+    font-family: var(--nc-sans);
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--nc-gray);
+}
+
+/* ---- CF7 form overrides ---- */
+
+/* Remove CF7's default paragraph wrappers spacing */
+.nc-contact__form .wpcf7 p {
+    margin: 0;
+}
+
+.nc-contact__form .wpcf7-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Each label + input pair */
+.nc-contact__form .wpcf7-form p {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* Labels */
+.nc-contact__form label {
+    font-family: var(--nc-sans);
+    font-size: 0.58rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-gray);
+}
+
+/* Text inputs + textarea */
+.nc-contact__form input[type="text"],
+.nc-contact__form input[type="email"],
+.nc-contact__form textarea {
+    font-family: var(--nc-sans);
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: var(--nc-black);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--nc-rule);
+    padding: 0.6rem 0;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s var(--nc-ease);
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+.nc-contact__form input[type="text"]:focus,
+.nc-contact__form input[type="email"]:focus,
+.nc-contact__form textarea:focus {
+    border-bottom-color: var(--nc-black);
+}
+
+.nc-contact__form textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.7;
+}
+
+/* Submit button — matches .nc-btn--primary */
+.nc-contact__form input[type="submit"] {
+    font-family: var(--nc-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--nc-white);
+    background: var(--nc-img-bg);
+    border: 1px solid var(--nc-img-bg);
+    border-radius: 4px;
+    padding: 1rem 2.75rem;
+    cursor: pointer;
+    align-self: flex-start;
+    box-shadow: 0 2px 10px rgba(26, 32, 53, 0.22);
+    transition: background 0.25s var(--nc-ease), color 0.25s var(--nc-ease), box-shadow 0.25s var(--nc-ease);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.nc-contact__form input[type="submit"]:hover {
+    background: transparent;
+    color: var(--nc-img-bg);
+    box-shadow: 0 4px 14px rgba(26, 32, 53, 0.14);
+}
+
+/* CF7 validation messages */
+.nc-contact__form .wpcf7-not-valid-tip {
+    font-family: var(--nc-sans);
+    font-size: 0.58rem;
+    color: #b94a48;
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+}
+
+.nc-contact__form .wpcf7-response-output {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--nc-gray);
+}
+
+.nc-contact__form .wpcf7-mail-sent-ok {
+    color: #3a7a3a;
+}
+
+.nc-contact__form .wpcf7-mail-sent-ng,
+.nc-contact__form .wpcf7-aborted {
+    color: #b94a48;
+}
+
+@media (max-width: 768px) {
+    .nc-contact__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.nc-footer {
+    border-top: 1px solid var(--nc-rule);
+    padding-block: 2.25rem;
+}
+
+.nc-footer .nc-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.nc-footer__copy {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--nc-gray);
+}
+
+.nc-footer__links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nc-footer__links a {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--nc-gray);
+    transition: color 0.2s;
+}
+
+.nc-footer__links a:hover {
+    color: var(--nc-black);
+}
+
+@media (max-width: 560px) {
+    .nc-footer .nc-container {
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+    }
+}

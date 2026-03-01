@@ -1,0 +1,308 @@
+/* ==========================================================================
+   Nica Cornell — Writing Page Stylesheet  v1.0.6  (writing.css)
+   Loaded alongside homepage.css which provides the full design system:
+   CSS variables, reset, nav, footer, tagline portal, nc-btn, nc-eyebrow.
+   This file adds only writing-page-specific components.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Nav overrides for writing page
+   On the writing page the nav starts solid (is-scrolled class applied via PHP)
+   so links and hamburger must be dark from load, not white.
+   -------------------------------------------------------------------------- */
+.nc-writing-page .nc-nav__links a {
+    color: var(--nc-black);
+    text-shadow: none;
+}
+
+.nc-writing-page .nc-nav__toggle span {
+    background: var(--nc-black);
+}
+
+.nc-writing-page .nc-nav__logo-img {
+    filter: brightness(0);
+}
+
+
+/* --------------------------------------------------------------------------
+   Page header
+   -------------------------------------------------------------------------- */
+.nc-writing-header {
+    background: var(--nc-cream);
+    padding-top: clamp(7rem, 14vh, 10rem);   /* clear fixed nav + breathing room */
+    padding-bottom: 0;                        /* controls bar provides the gap below */
+}
+
+.nc-writing-title {
+    font-family: var(--nc-serif);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--nc-black);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   Controls bar — sticky below fixed nav
+   -------------------------------------------------------------------------- */
+.nc-writing-controls {
+    position: sticky;
+    top: 60px;    /* JS overrides this with nav.getBoundingClientRect().bottom */
+    z-index: 800;
+    background: var(--nc-cream); /* matches header — both read as one band */
+    border-bottom: 1px solid var(--nc-rule);
+    padding-block: 1rem 0.9rem;
+}
+
+.nc-writing-controls__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+
+/* --------------------------------------------------------------------------
+   Filter tabs
+   -------------------------------------------------------------------------- */
+.nc-filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    align-items: center;
+}
+
+.nc-filter-tab {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-gray);
+    background: transparent;
+    border: none;
+    padding: 0.35rem 0;
+    border-bottom: 1.5px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s var(--nc-ease), border-color 0.2s var(--nc-ease);
+    white-space: nowrap;
+}
+
+.nc-filter-tab:hover {
+    color: var(--nc-black);
+}
+
+.nc-filter-tab.is-active {
+    color: var(--nc-black);
+    border-bottom-color: var(--nc-black);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sort controls
+   -------------------------------------------------------------------------- */
+.nc-sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.nc-sort-label {
+    font-family: var(--nc-sans);
+    font-size: 0.55rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-gray);
+}
+
+.nc-sort-select {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--nc-black);
+    background: transparent;
+    border: 1px solid var(--nc-rule);
+    padding: 0.4rem 1.75rem 0.4rem 0.65rem;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    /* Minimal chevron via inline SVG background */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238c8c8c' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+}
+
+.nc-sort-select:focus {
+    outline: 1px solid var(--nc-black);
+    outline-offset: 2px;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   Main content area
+   -------------------------------------------------------------------------- */
+.nc-writing-main {
+    padding-block: clamp(3rem, 6vh, 5rem);
+}
+
+
+/* --------------------------------------------------------------------------
+   Publications grid — 3 columns
+   -------------------------------------------------------------------------- */
+.nc-writing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 960px) {
+    .nc-writing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .nc-writing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tighter covers in 1-column layout */
+    .nc-wcard__img-wrap {
+        width: 38%;
+    }
+}
+
+
+/* --------------------------------------------------------------------------
+   Writing card (.nc-wcard) — mirrors .nc-carousel-card visual language
+   -------------------------------------------------------------------------- */
+.nc-wcard {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--nc-black);
+    padding-top: 1.5rem;
+    padding-bottom: 1.75rem;
+}
+
+.nc-wcard__title {
+    font-family: var(--nc-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--nc-black);
+    margin-bottom: 0.6rem;
+}
+
+.nc-wcard__title a {
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.nc-wcard__title a:hover {
+    opacity: 0.55;
+}
+
+/* Type · Year meta line */
+.nc-wcard__meta {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1.1rem;
+    flex-wrap: wrap;
+    line-height: 1;
+}
+
+.nc-wcard__type,
+.nc-wcard__year,
+.nc-wcard__sep {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--nc-gray);
+}
+
+.nc-wcard__publisher {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    color: var(--nc-gray);
+    margin-top: 0.5rem;
+    margin-bottom: 1.1rem;
+}
+
+/* Cover image — 50% card width, 2:3 portrait ratio */
+.nc-wcard__img-wrap {
+    width: 50%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: var(--nc-img-bg);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.nc-wcard__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.5s var(--nc-ease);
+}
+
+.nc-wcard:hover .nc-wcard__img-wrap img {
+    transform: scale(1.04);
+}
+
+.nc-wcard__img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #c8c5bf;
+}
+
+
+/* --------------------------------------------------------------------------
+   Empty state
+   -------------------------------------------------------------------------- */
+.nc-writing-empty {
+    font-family: var(--nc-serif);
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--nc-gray);
+    text-align: center;
+    padding-block: 4rem;
+    grid-column: 1 / -1;   /* spans full grid width if ever inside grid */
+}
+
+
+/* --------------------------------------------------------------------------
+   Responsive adjustments — controls bar
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+    .nc-writing-controls__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.9rem;
+    }
+
+    .nc-sort-wrap {
+        align-self: flex-start;
+    }
+}
