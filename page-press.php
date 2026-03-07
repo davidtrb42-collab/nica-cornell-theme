@@ -325,7 +325,9 @@ $press = [
             var isOpen = nav.classList.toggle('is-open');
             toggle.classList.toggle('is-open', isOpen);
             toggle.setAttribute('aria-expanded', String(isOpen));
+            toggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
             document.body.style.overflow = isOpen ? 'hidden' : '';
+            sealControlsTop();
         });
 
         document.addEventListener('keydown', function (e) {
@@ -333,8 +335,10 @@ $press = [
                 nav.classList.remove('is-open');
                 toggle.classList.remove('is-open');
                 toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'Open navigation menu');
                 document.body.style.overflow = '';
                 toggle.focus();
+                sealControlsTop();
             }
         });
     }

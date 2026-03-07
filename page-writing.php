@@ -239,6 +239,7 @@ $all_pubs = get_posts( [
 
         <ul class="nc-footer__links" aria-label="Footer navigation">
             <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">All Publications</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/press/' ) ); ?>">Press</a></li>
             <li><a href="<?php echo esc_url( home_url( '/#nc-about' ) ); ?>">About</a></li>
             <li><a href="<?php echo esc_url( home_url( '/#nc-contact' ) ); ?>">Contact</a></li>
         </ul>
@@ -294,7 +295,9 @@ $all_pubs = get_posts( [
             var isOpen = nav.classList.toggle('is-open');
             toggle.classList.toggle('is-open', isOpen);
             toggle.setAttribute('aria-expanded', String(isOpen));
+            toggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
             document.body.style.overflow = isOpen ? 'hidden' : '';
+            sealControlsTop();
         });
 
         document.addEventListener('keydown', function (e) {
@@ -302,8 +305,10 @@ $all_pubs = get_posts( [
                 nav.classList.remove('is-open');
                 toggle.classList.remove('is-open');
                 toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'Open navigation menu');
                 document.body.style.overflow = '';
                 toggle.focus();
+                sealControlsTop();
             }
         });
     }
@@ -326,8 +331,9 @@ $all_pubs = get_posts( [
                 var r = btn.getBoundingClientRect();
                 portal.textContent = box.textContent;
                 portal.style.top     = (r.bottom + 8) + 'px';
-                portal.style.left    = r.left + 'px';
                 portal.style.opacity = '1';
+                var left = Math.min(r.left, window.innerWidth - portal.offsetWidth - 16);
+                portal.style.left = Math.max(0, left) + 'px';
             });
 
             reveal.addEventListener('mouseleave', function () {
@@ -366,9 +372,13 @@ $all_pubs = get_posts( [
                 case 'title-desc':
                     return (b.dataset.title || '').localeCompare(a.dataset.title || '');
                 case 'year-desc':
-                    return parseInt(b.dataset.year || '0', 10) - parseInt(a.dataset.year || '0', 10);
+                    var yd_a = a.dataset.year ? parseInt(a.dataset.year, 10) : -Infinity;
+                    var yd_b = b.dataset.year ? parseInt(b.dataset.year, 10) : -Infinity;
+                    return yd_b - yd_a;
                 case 'year-asc':
-                    return parseInt(a.dataset.year || '0', 10) - parseInt(b.dataset.year || '0', 10);
+                    var ya_a = a.dataset.year ? parseInt(a.dataset.year, 10) : Infinity;
+                    var ya_b = b.dataset.year ? parseInt(b.dataset.year, 10) : Infinity;
+                    return ya_a - ya_b;
                 default: // title-asc
                     return (a.dataset.title || '').localeCompare(b.dataset.title || '');
             }

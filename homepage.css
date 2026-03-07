@@ -618,15 +618,23 @@
     }
 }
 
-/* Mobile: 1 card, natural swipe */
+/* Mobile: 1 card, arrows-only navigation */
 @media (max-width: 600px) {
     .nc-slider-track {
         grid-auto-columns: 100%;
+        touch-action: pan-y; /* disable horizontal swipe — use buttons only */
     }
 
     /* Tighter covers in 1-card-per-view mode */
     .nc-slider-track .nc-carousel-card__img-wrap {
         width: 48%;
+    }
+
+    /* Larger, more prominent arrow buttons on mobile */
+    .nc-slider-nav__btn {
+        font-size: 2rem;
+        color: var(--nc-black);
+        padding: 0.75rem 1.25rem;
     }
 
     /* All Publications head: keep heading + "View All" on one line */

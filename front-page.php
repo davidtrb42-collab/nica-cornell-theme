@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <h1 class="nc-hero__name">Nica Cornell</h1>
         <p class="nc-hero__desc">Writer &middot; Poet &middot; Academic</p>
         <div class="nc-hero__cta">
-            <a href="#nc-publications" class="nc-btn--hero-primary">View Writing</a>
+            <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>" class="nc-btn--hero-primary">View Writing</a>
             <a href="#nc-contact" class="nc-btn--hero-ghost">Contact</a>
         </div>
     </div>
@@ -333,6 +333,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <ul class="nc-footer__links" aria-label="Footer navigation">
             <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">All Publications</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/press/' ) ); ?>">Press</a></li>
             <li><a href="#nc-about">About</a></li>
             <li><a href="#nc-contact">Contact</a></li>
         </ul>
@@ -370,7 +371,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             var isOpen = nav.classList.toggle('is-open');
             toggle.classList.toggle('is-open', isOpen);
             toggle.setAttribute('aria-expanded', String(isOpen));
-            // Prevent body scroll while menu is open
+            toggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
             document.body.style.overflow = isOpen ? 'hidden' : '';
         });
 
@@ -380,9 +381,21 @@ if ( ! defined( 'ABSPATH' ) ) {
                 nav.classList.remove('is-open');
                 toggle.classList.remove('is-open');
                 toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'Open navigation menu');
                 document.body.style.overflow = '';
                 toggle.focus();
             }
+        });
+
+        // Close menu and restore scroll when a hash link is tapped
+        document.querySelectorAll('#nc-nav-links a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', function () {
+                nav.classList.remove('is-open');
+                toggle.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'Open navigation menu');
+                document.body.style.overflow = '';
+            });
         });
     }
 
@@ -410,9 +423,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             reveal.addEventListener('mouseenter', function () {
                 var r = btn.getBoundingClientRect();
                 portal.textContent = box.textContent;
-                portal.style.top  = (r.bottom + 8) + 'px';
-                portal.style.left = r.left + 'px';
+                portal.style.top     = (r.bottom + 8) + 'px';
                 portal.style.opacity = '1';
+                var left = Math.min(r.left, window.innerWidth - portal.offsetWidth - 16);
+                portal.style.left = Math.max(0, left) + 'px';
             });
 
             reveal.addEventListener('mouseleave', function () {
