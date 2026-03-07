@@ -40,6 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <ul class="nc-nav__links" id="nc-nav-links">
         <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">All Publications</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/press/' ) ); ?>">Press</a></li>
         <li><a href="#nc-about">About</a></li>
         <li><a href="#nc-contact">Contact</a></li>
     </ul>
@@ -306,7 +307,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             <!-- Left: heading -->
             <div class="nc-contact__intro">
                 <h2 class="nc-contact__heading">Get in Touch</h2>
-                <p class="nc-contact__subtext">Questions, commissions, or press enquiries.</p>
             </div>
 
             <!-- Right: form -->

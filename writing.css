@@ -62,50 +62,14 @@
 .nc-writing-controls__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 1.5rem;
     flex-wrap: wrap;
 }
 
 
 /* --------------------------------------------------------------------------
-   Filter tabs
-   -------------------------------------------------------------------------- */
-.nc-filter-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.75rem;
-    align-items: center;
-}
-
-.nc-filter-tab {
-    font-family: var(--nc-sans);
-    font-size: 0.6rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--nc-gray);
-    background: transparent;
-    border: none;
-    padding: 0.35rem 0;
-    border-bottom: 1.5px solid transparent;
-    cursor: pointer;
-    transition: color 0.2s var(--nc-ease), border-color 0.2s var(--nc-ease);
-    white-space: nowrap;
-}
-
-.nc-filter-tab:hover {
-    color: var(--nc-black);
-}
-
-.nc-filter-tab.is-active {
-    color: var(--nc-black);
-    border-bottom-color: var(--nc-black);
-}
-
-
-/* --------------------------------------------------------------------------
-   Sort controls
+   Sort / filter controls
    -------------------------------------------------------------------------- */
 .nc-sort-wrap {
     display: flex;
@@ -215,11 +179,11 @@
 }
 
 /* Type · Year meta line */
-.nc-wcard__meta {
+.nc-page .nc-wcard__meta {
     display: flex;
     align-items: center;
     gap: 0;
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.5rem;
     flex-wrap: wrap;
     line-height: 1;
 }
@@ -235,7 +199,12 @@
     color: var(--nc-gray);
 }
 
-.nc-wcard__publisher {
+.nc-wcard__year {
+    color: var(--nc-black);
+    font-weight: 600;
+}
+
+.nc-page .nc-wcard__publisher {
     font-family: var(--nc-sans);
     font-size: 0.65rem;
     font-weight: 400;
@@ -243,8 +212,8 @@
     text-transform: none;
     letter-spacing: 0.04em;
     color: var(--nc-gray);
-    margin-top: 0.5rem;
-    margin-bottom: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
 }
 
 /* Cover image — 50% card width, 2:3 portrait ratio */

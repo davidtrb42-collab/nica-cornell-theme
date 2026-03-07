@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Query all publication_section taxonomy terms for the filter tabs
+// Query all publication_type taxonomy terms for the filter tabs
 $filter_terms = get_terms( [
-    'taxonomy'   => 'publication_section',
+    'taxonomy'   => 'publication_type',
     'hide_empty' => true,
     'orderby'    => 'name',
     'order'      => 'ASC',
@@ -57,6 +57,7 @@ $all_pubs = get_posts( [
 
     <ul class="nc-nav__links" id="nc-nav-links">
         <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>" aria-current="page">All Publications</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/press/' ) ); ?>">Press</a></li>
         <li><a href="<?php echo esc_url( home_url( '/#nc-about' ) ); ?>">About</a></li>
         <li><a href="<?php echo esc_url( home_url( '/#nc-contact' ) ); ?>">Contact</a></li>
     </ul>
@@ -92,18 +93,19 @@ $all_pubs = get_posts( [
 
         <div class="nc-writing-controls__inner">
 
-            <!-- Filter tabs -->
-            <div class="nc-filter-tabs" role="group" aria-label="Filter publications by type">
-                <button class="nc-filter-tab is-active" data-filter="all" type="button">All</button>
-                <?php if ( ! is_wp_error( $filter_terms ) && $filter_terms ) : ?>
-                    <?php foreach ( $filter_terms as $term ) : ?>
-                        <button class="nc-filter-tab"
-                                data-filter="<?php echo esc_attr( $term->name ); ?>"
-                                type="button">
-                            <?php echo esc_html( $term->name ); ?>
-                        </button>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+            <!-- Filter by type -->
+            <div class="nc-sort-wrap">
+                <label class="nc-sort-label" for="nc-filter-select">Type</label>
+                <select class="nc-sort-select" id="nc-filter-select" aria-label="Filter publications by type">
+                    <option value="all">All</option>
+                    <?php if ( ! is_wp_error( $filter_terms ) && $filter_terms ) : ?>
+                        <?php foreach ( $filter_terms as $term ) : ?>
+                            <option value="<?php echo esc_attr( $term->name ); ?>">
+                                <?php echo esc_html( $term->name ); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </div>
 
             <!-- Sort -->
@@ -141,7 +143,7 @@ $all_pubs = get_posts( [
                               ? $year_terms[0]->name
                               : '';
 
-                $section_terms = get_the_terms( $pub_id, 'publication_section' );
+                $section_terms = get_the_terms( $pub_id, 'publication_type' );
                 $pub_type      = '';
                 if ( $section_terms && ! is_wp_error( $section_terms ) ) {
                     $pub_type = implode( '|', wp_list_pluck( $section_terms, 'name' ) );
@@ -149,6 +151,10 @@ $all_pubs = get_posts( [
 
                 $pub_tagline   = esc_html( get_post_meta( $pub_id, 'tagline', true ) );
                 $pub_publisher = esc_html( get_post_meta( $pub_id, 'publisher', true ) );
+                $type_names    = ( $section_terms && ! is_wp_error( $section_terms ) )
+                                 ? array_map( 'strtolower', wp_list_pluck( $section_terms, 'name' ) )
+                                 : [];
+                $show_publisher = $pub_publisher && ! in_array( strtolower( $pub_publisher ), $type_names );
                 $thumb_id      = get_post_thumbnail_id( $pub_id );
             ?>
 
@@ -176,13 +182,13 @@ $all_pubs = get_posts( [
                         </span>
                     <?php endif; ?>
                     <?php if ( $pub_type && $pub_year ) : ?>
-                        <span class="nc-wcard__sep" aria-hidden="true"> · </span>
+                        <span class="nc-wcard__sep" aria-hidden="true"> | </span>
                     <?php endif; ?>
                     <?php if ( $pub_year ) : ?>
                         <span class="nc-wcard__year"><?php echo esc_html( $pub_year ); ?></span>
                     <?php endif; ?>
                 </p>
-                <?php if ( $pub_publisher ) : ?>
+                <?php if ( $show_publisher ) : ?>
                     <p class="nc-wcard__publisher"><?php echo $pub_publisher; ?></p>
                 <?php else : ?>
                     <br>
@@ -336,7 +342,6 @@ $all_pubs = get_posts( [
     var grid    = document.getElementById('nc-writing-grid');
     var emptyEl = document.getElementById('nc-writing-empty');
     var sortSelect = document.getElementById('nc-sort-select');
-    var filterBtns = document.querySelectorAll('.nc-filter-tab');
 
     var activeFilter = 'all';
     var activeSort   = 'title-asc';
@@ -376,15 +381,14 @@ $all_pubs = get_posts( [
         emptyEl.hidden = visible.length > 0;
     }
 
-    // Filter tab clicks
-    filterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            filterBtns.forEach(function (b) { b.classList.remove('is-active'); });
-            btn.classList.add('is-active');
-            activeFilter = btn.dataset.filter;
+    // Filter select change
+    var filterSelect = document.getElementById('nc-filter-select');
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function () {
+            activeFilter = filterSelect.value;
             render();
         });
-    });
+    }
 
     // Sort select change
     if (sortSelect) {

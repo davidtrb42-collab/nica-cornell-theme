@@ -1,7 +1,10 @@
 /* ==========================================================================
-   Nica Cornell — Homepage Stylesheet  v1.2.7 — deployed
+   Nica Cornell — Homepage Stylesheet  v1.2.8 — deployed
    Fonts: Inter, Cormorant Garamond
    ========================================================================== */
+
+/* DEPLOY TEST — remove after confirming */
+body { border-top: 6px solid hotpink !important; }
 
 /* --------------------------------------------------------------------------
    Custom Properties
@@ -27,6 +30,7 @@
 .nc-page {
     margin: 0;
     padding: 0;
+    font-family: var(--nc-sans);
     background: var(--nc-white);
     color: var(--nc-black);
     -webkit-font-smoothing: antialiased;
@@ -686,7 +690,7 @@
     background: #c8c5bf;
 }
 
-.nc-carousel-card__year {
+.nc-page .nc-carousel-card__year {
     font-family: var(--nc-sans);
     font-size: 0.65rem;
     font-weight: 700;

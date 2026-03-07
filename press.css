@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Nica Cornell — Press Page Stylesheet  v1.3.0  (press.css)
+   Loaded alongside homepage.css which provides: CSS variables, reset, nav,
+   footer, nc-btn, nc-container. This file adds only press-page components.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Nav overrides — press page starts solid (is-scrolled via PHP)
+   -------------------------------------------------------------------------- */
+.nc-press-page .nc-nav__links a {
+    color: var(--nc-black);
+    text-shadow: none;
+}
+
+.nc-press-page .nc-nav__toggle span {
+    background: var(--nc-black);
+}
+
+.nc-press-page .nc-nav__logo-img {
+    filter: brightness(0);
+}
+
+
+/* --------------------------------------------------------------------------
+   Page header
+   -------------------------------------------------------------------------- */
+.nc-press-header {
+    background: var(--nc-cream);
+    padding-top: clamp(7rem, 14vh, 10rem);
+    padding-bottom: clamp(2.5rem, 5vh, 4rem);
+}
+
+.nc-press-title {
+    font-family: var(--nc-serif-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--nc-black);
+    margin: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   Controls bar — sticky below fixed nav, replaces header border-bottom
+   -------------------------------------------------------------------------- */
+.nc-press-controls {
+    position: sticky;
+    top: 60px;    /* JS overrides with nav.getBoundingClientRect().bottom */
+    z-index: 800;
+    background: var(--nc-cream);
+    border-bottom: 1px solid var(--nc-rule);
+    padding-block: 1rem 0.9rem;
+}
+
+.nc-press-controls__inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Reuse writing-page sort control styles */
+.nc-press-page .nc-sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.nc-press-page .nc-sort-label {
+    font-family: var(--nc-sans);
+    font-size: 0.55rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-gray);
+}
+
+.nc-press-page .nc-sort-select {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--nc-black);
+    background: transparent;
+    border: 1px solid var(--nc-rule);
+    padding: 0.4rem 1.75rem 0.4rem 0.65rem;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238c8c8c' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+}
+
+.nc-press-page .nc-sort-select:focus {
+    outline: 1px solid var(--nc-black);
+    outline-offset: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Main content area
+   -------------------------------------------------------------------------- */
+.nc-press-main {
+    padding-block: clamp(3rem, 6vh, 5rem);
+}
+
+
+/* --------------------------------------------------------------------------
+   Section — spacing + "Press" label heading
+   -------------------------------------------------------------------------- */
+.nc-press-section {
+    margin-bottom: clamp(4rem, 8vh, 6rem);
+}
+
+.nc-press-section:last-child {
+    margin-bottom: 0;
+}
+
+/* "PRESS" heading between the two sections */
+.nc-press-section__label {
+    font-family: var(--nc-sans);
+    font-size: 0.65rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--nc-gray);
+    margin: 0 0 0;         /* no bottom margin — first year-group's border-top provides the gap */
+}
+
+
+/* --------------------------------------------------------------------------
+   Year group — large year anchor on left, entries on right
+   -------------------------------------------------------------------------- */
+.nc-year-group {
+    display: grid;
+    grid-template-columns: clamp(5rem, 10vw, 8rem) 1fr;
+    gap: 0 clamp(2rem, 4vw, 4rem);
+    padding-block: clamp(2rem, 4vh, 3rem);
+    border-top: 1px solid var(--nc-rule);
+    align-items: start;
+}
+
+.nc-press-section__label + .nc-year-group {
+    border-top: 2px solid var(--nc-black);   /* stronger rule after the section heading */
+    margin-top: 1.5rem;
+}
+
+/* First year-group in the presentations section — controls bar provides the separator */
+.nc-press-section:first-child .nc-year-group:first-child {
+    border-top: none;
+}
+
+.nc-year-group__year {
+    font-family: var(--nc-serif-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--nc-black);
+    letter-spacing: -0.02em;
+    padding-top: 0.15rem;   /* optical alignment with entry title cap height */
+    display: block;
+}
+
+
+/* --------------------------------------------------------------------------
+   Entries list — stacked within the right column
+   -------------------------------------------------------------------------- */
+.nc-year-group__entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.nc-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Separator between entries within the same year group */
+.nc-year-group__entries .nc-entry + .nc-entry {
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--nc-rule);
+}
+
+
+/* --------------------------------------------------------------------------
+   Entry typography
+   -------------------------------------------------------------------------- */
+.nc-entry__type {
+    font-family: var(--nc-sans);
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--nc-gray);
+    margin: 0;
+}
+
+.nc-page .nc-entry__title {
+    font-family: var(--nc-sans);
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--nc-black);
+    margin: 0;
+}
+
+.nc-entry__title a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.18s;
+}
+
+.nc-entry__title a:hover {
+    opacity: 0.5;
+}
+
+.nc-page .nc-entry__venue {
+    font-family: var(--nc-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--nc-gray);
+    margin: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   Mobile — stack year above entries
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+    .nc-year-group {
+        grid-template-columns: 1fr;
+        gap: 0.75rem 0;
+    }
+
+    .nc-year-group__year {
+        font-size: clamp(2rem, 8vw, 2.75rem);
+    }
+}

@@ -28,7 +28,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-homepage',
             get_stylesheet_directory_uri() . '/homepage.css',
             [],
-            '1.2.7'
+            '1.2.8'
         );
     }
 
@@ -41,7 +41,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-homepage',
             get_stylesheet_directory_uri() . '/homepage.css',
             [],
-            '1.2.7'
+            '1.2.8'
         );
 
         // Writing-page-specific overrides
@@ -52,11 +52,32 @@ add_action( 'wp_enqueue_scripts', function () {
             '1.0.6'
         );
     }
+
+    if ( is_page( 'press' ) ) {
+        // Remove Astra's stylesheet — press page is fully custom.
+        wp_dequeue_style( 'astra-theme-css' );
+
+        // Shared design system
+        wp_enqueue_style(
+            'nc-homepage',
+            get_stylesheet_directory_uri() . '/homepage.css',
+            [],
+            '1.2.8'
+        );
+
+        // Press-page-specific styles
+        wp_enqueue_style(
+            'nc-press',
+            get_stylesheet_directory_uri() . '/press.css',
+            [ 'nc-homepage' ],
+            '1.4.0'
+        );
+    }
 }, 20 );
 
 // 2. Google Fonts — on front page and writing page, injected early in <head>
 add_action( 'wp_head', function () {
-    if ( ! is_front_page() && ! is_page( 'writing' ) ) {
+    if ( ! is_front_page() && ! is_page( 'writing' ) && ! is_page( 'press' ) ) {
         return;
     }
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
@@ -144,6 +165,12 @@ add_filter( 'template_include', function ( $template ) {
     }
     if ( is_page( 'writing' ) ) {
         $ours = get_stylesheet_directory() . '/page-writing.php';
+        if ( file_exists( $ours ) ) {
+            return $ours;
+        }
+    }
+    if ( is_page( 'press' ) ) {
+        $ours = get_stylesheet_directory() . '/page-press.php';
         if ( file_exists( $ours ) ) {
             return $ours;
         }
