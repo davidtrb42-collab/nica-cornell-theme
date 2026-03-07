@@ -280,8 +280,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <h2 class="nc-about__name">Nica Cornell</h2>
                 <br>
                 <div class="nc-about__bio">
-                    <p>Nica Cornell is a South African writer, poet, and academic whose work spans fashion studies, disability theory, and African intellectual history. Her debut memoir <em>Sickness in Style</em> (Lived Places Publishing, 2025) explores the relationship between dress, illness, and identity across three continents.</p>
-                    <p>Her poetry has appeared in <em>Best New African Poets</em>, <em>Kalahari Review</em>, <em>20.35 Africa</em>, and in translation in Spanish, Tamil, and Afrikaans. Her critical writing has been published in the <em>International Journal of Fashion Studies</em>, the <em>Journal of Dress History</em>, and across several edited collections on African intellectual history.</p>
+                    <p>Nica Cornell is a South African writer, poet, and academic whose work spans fashion studies, disability, and African intellectual history. Her debut memoir <em>Sickness in Style</em> (Lived Places Publishing, 2025) explores the relationship between dress, illness, and identity from South Africa to the United Kingdom.</p>
+                    <p>Her debut poetry anthology <em>a sky is falling</em> (Mwanaka Media and Publishing) was published in 2023. Her poems have also appeared in a range of publications including 20.35 Africa and Best New African Poets, along with being translated into Spanish and Tamil.</p>
+                    <p>Her academic writing has been published in the International Journal of Fashion Studies, the South African Foreign Policy Review, and across several edited collections on African intellectual history.</p>
                 </div>
 
                 <a href="#nc-contact" class="nc-btn--primary">

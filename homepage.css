@@ -210,23 +210,52 @@
         display: flex;
     }
 
+    /* Hidden by default on mobile */
     .nc-nav__links {
-        position: fixed;
+        display: none;
+    }
+
+    /* Nav expands to full-screen overlay when open — no child fixed-positioning needed */
+    .nc-nav.is-open {
         inset: 0;
-        background: var(--nc-white);
+        height: 100vh;
+        height: 100dvh;
+        background: var(--nc-white) !important;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2.5rem;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s var(--nc-ease);
-        z-index: 905;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        border-bottom-color: transparent !important;
+        padding: 0;
     }
 
+    /* Hide logo inside open overlay, pin X button to top-right */
+    .nc-nav.is-open .nc-nav__logo {
+        display: none;
+    }
+
+    .nc-nav.is-open .nc-nav__toggle {
+        position: absolute;
+        top: 1.75rem;
+        right: var(--nc-px);
+    }
+
+    /* Show links as centered column */
     .nc-nav.is-open .nc-nav__links {
-        opacity: 1;
-        pointer-events: all;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 2rem 0;
+        overflow-y: auto;
+        animation: nc-nav-fadein 0.3s var(--nc-ease) forwards;
+    }
+
+    @keyframes nc-nav-fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
     }
 
     .nc-nav__links a {
