@@ -945,14 +945,6 @@
     margin-bottom: 1.5rem;
 }
 
-.nc-contact__subtext {
-    font-family: var(--nc-sans);
-    font-size: 0.875rem;
-    font-weight: 300;
-    line-height: 1.6;
-    color: var(--nc-gray);
-}
-
 /* ---- CF7 form overrides ---- */
 
 /* Remove CF7's default paragraph wrappers spacing */

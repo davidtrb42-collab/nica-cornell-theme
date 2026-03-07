@@ -257,7 +257,6 @@
     color: var(--nc-gray);
     text-align: center;
     padding-block: 4rem;
-    grid-column: 1 / -1;   /* spans full grid width if ever inside grid */
 }
 
 
