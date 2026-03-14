@@ -154,6 +154,57 @@ add_action( 'acf/init', function () {
     ] );
 } );
 
+// 6. Cloudflare Turnstile for Contact Form 7
+//    Client: loads turnstile script on front page (where the form lives).
+//    Server: verifies the token before CF7 sends mail; marks as spam if invalid.
+
+add_action( 'wp_enqueue_scripts', function () {
+    if ( is_front_page() ) {
+        wp_enqueue_script(
+            'cf-turnstile',
+            'https://challenges.cloudflare.com/turnstile/v0/api.js',
+            [],
+            null,
+            true
+        );
+    }
+}, 20 );
+
+// Inject the Turnstile widget into the CF7 form before the submit button.
+add_filter( 'wpcf7_form_elements', function ( $elements ) {
+    $widget = '<div class="cf-turnstile" data-sitekey="0x4AAAAAAACq4qpE9syPB_1JX"></div>';
+    return preg_replace( '/(<input[^>]+type=["\']submit["\'][^>]*>)/i', $widget . '$1', $elements, 1 );
+} );
+
+add_filter( 'wpcf7_spam', function ( $spam ) {
+    if ( $spam ) {
+        return $spam; // already caught by another check
+    }
+
+    $token  = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : '';
+    $secret = defined( 'NC_TURNSTILE_SECRET' ) ? NC_TURNSTILE_SECRET : '';
+
+    if ( empty( $token ) || empty( $secret ) ) {
+        return true; // no token → treat as spam
+    }
+
+    $response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+        'body' => [
+            'secret'   => $secret,
+            'response' => $token,
+            'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
+        ],
+    ] );
+
+    if ( is_wp_error( $response ) ) {
+        return true; // network error → block submission
+    }
+
+    $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+    return empty( $body['success'] ); // true = spam if verification failed
+} );
+
 // 7. Force our custom templates to win against Elementor's template_include hook.
 //    Elementor overrides template selection at priority 12; we run at 999.
 add_filter( 'template_include', function ( $template ) {
