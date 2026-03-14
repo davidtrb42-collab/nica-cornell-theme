@@ -158,22 +158,21 @@ add_action( 'acf/init', function () {
 //    Client: loads turnstile script on front page (where the form lives).
 //    Server: verifies the token before CF7 sends mail; marks as spam if invalid.
 
-add_action( 'wp_enqueue_scripts', function () {
+// Output Turnstile script tag directly so we can set async (wp_enqueue_script
+// doesn't support the async attribute without extra filters).
+add_action( 'wp_head', function () {
     if ( is_front_page() ) {
-        wp_enqueue_script(
-            'cf-turnstile',
-            'https://challenges.cloudflare.com/turnstile/v0/api.js',
-            [],
-            null,
-            true
-        );
+        echo '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' . "\n";
     }
-}, 20 );
+}, 5 );
 
 // Inject the Turnstile widget into the CF7 form before the submit button.
+// CF7 renders submit as <input type="submit" ...> wrapped in a <span>.
 add_filter( 'wpcf7_form_elements', function ( $elements ) {
     $widget = '<div class="cf-turnstile" data-sitekey="0x4AAAAAAACq4qpE9syPB_1JX"></div>';
-    return preg_replace( '/(<input[^>]+type=["\']submit["\'][^>]*>)/i', $widget . '$1', $elements, 1 );
+    // Match both <input type="submit"> and <button type="submit">
+    $result = preg_replace( '/(<(?:input[^>]+type=["\']submit["\'][^>]*|button[^>]+type=["\']submit["\'][^>]*)>)/i', $widget . '$1', $elements, 1 );
+    return $result !== null ? $result : $elements;
 } );
 
 add_filter( 'wpcf7_spam', function ( $spam ) {
