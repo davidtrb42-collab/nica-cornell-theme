@@ -183,8 +183,17 @@ add_filter( 'wpcf7_spam', function ( $spam ) {
     $token  = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : '';
     $secret = defined( 'NC_TURNSTILE_SECRET' ) ? NC_TURNSTILE_SECRET : '';
 
-    if ( empty( $token ) || empty( $secret ) ) {
-        return true; // no token → treat as spam
+    error_log( 'NC Turnstile — token: ' . ( $token ? 'present (' . strlen( $token ) . ' chars)' : 'MISSING' ) );
+    error_log( 'NC Turnstile — secret: ' . ( $secret ? 'defined' : 'MISSING' ) );
+
+    if ( empty( $token ) ) {
+        error_log( 'NC Turnstile — blocked: no token' );
+        return true;
+    }
+
+    if ( empty( $secret ) ) {
+        error_log( 'NC Turnstile — secret missing, allowing through' );
+        return false; // misconfigured — fail open rather than block everyone
     }
 
     $response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
@@ -196,10 +205,12 @@ add_filter( 'wpcf7_spam', function ( $spam ) {
     ] );
 
     if ( is_wp_error( $response ) ) {
-        return true; // network error → block submission
+        error_log( 'NC Turnstile — wp_remote_post error: ' . $response->get_error_message() );
+        return false; // network error → fail open, don't block legitimate users
     }
 
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
+    error_log( 'NC Turnstile — Cloudflare response: ' . wp_json_encode( $body ) );
 
     return empty( $body['success'] ); // true = spam if verification failed
 } );
