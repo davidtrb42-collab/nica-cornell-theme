@@ -191,19 +191,25 @@ add_action( 'wp_footer', function () {
             var tokenInput = document.getElementById('nc-ts-token');
             if (!container || !tokenInput || typeof turnstile === 'undefined') { return; }
 
-            turnstile.render(container, {
+            console.log('NC Turnstile: calling render');
+            var widgetId = turnstile.render(container, {
                 sitekey: '0x4AAAAAAACq4qpE9syPB_1JX',
+                size: 'normal',
                 callback: function (token) {
+                    console.log('NC Turnstile: token received, length=' + token.length);
                     tokenInput.value = token;
                 },
-                'error-callback': function () {
+                'error-callback': function (code) {
+                    console.error('NC Turnstile: error', code);
                     tokenInput.value = '';
                 },
                 'expired-callback': function () {
+                    console.warn('NC Turnstile: expired, resetting');
                     tokenInput.value = '';
-                    turnstile.reset(container);
+                    turnstile.reset(widgetId);
                 }
             });
+            console.log('NC Turnstile: widgetId=' + widgetId);
         }
 
         // Turnstile loads async — poll until the API is ready.
