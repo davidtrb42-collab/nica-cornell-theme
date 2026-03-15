@@ -158,22 +158,68 @@ add_action( 'acf/init', function () {
 //    Client: loads turnstile script on front page (where the form lives).
 //    Server: verifies the token before CF7 sends mail; marks as spam if invalid.
 
-// Output Turnstile script tag directly so we can set async (wp_enqueue_script
-// doesn't support the async attribute without extra filters).
+// Load Turnstile in explicit render mode — we call turnstile.render() manually
+// from JS so we control exactly when it initialises relative to CF7.
 add_action( 'wp_head', function () {
     if ( is_front_page() ) {
-        echo '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>' . "\n";
+        echo '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>' . "\n";
     }
 }, 5 );
 
-// Inject the Turnstile widget into the CF7 form before the submit button.
-// CF7 renders submit as <input type="submit" ...> wrapped in a <span>.
+// Inject a pre-created hidden input + a wrapper div into the CF7 form.
+// We own the hidden input — Turnstile's callback writes into it, so the
+// token is guaranteed to be in the DOM when CF7 builds its FormData.
 add_filter( 'wpcf7_form_elements', function ( $elements ) {
-    $widget = '<div class="cf-turnstile" data-sitekey="0x4AAAAAAACq4qpE9syPB_1JX"></div>';
-    // Match both <input type="submit"> and <button type="submit">
-    $result = preg_replace( '/(<(?:input[^>]+type=["\']submit["\'][^>]*|button[^>]+type=["\']submit["\'][^>]*)>)/i', $widget . '$1', $elements, 1 );
+    $widget  = '<input type="hidden" name="cf-turnstile-response" id="nc-ts-token" value="">';
+    $widget .= '<div id="nc-ts-widget"></div>';
+    $result  = preg_replace( '/(<(?:input[^>]+type=["\']submit["\'][^>]*|button[^>]+type=["\']submit["\'][^>]*)>)/i', $widget . '$1', $elements, 1 );
     return $result !== null ? $result : $elements;
 } );
+
+// Explicitly render the Turnstile widget after the page loads.
+add_action( 'wp_footer', function () {
+    if ( ! is_front_page() ) {
+        return;
+    }
+    ?>
+    <script>
+    (function () {
+        'use strict';
+
+        function mountTurnstile() {
+            var container = document.getElementById('nc-ts-widget');
+            var tokenInput = document.getElementById('nc-ts-token');
+            if (!container || !tokenInput || typeof turnstile === 'undefined') { return; }
+
+            turnstile.render(container, {
+                sitekey: '0x4AAAAAAACq4qpE9syPB_1JX',
+                callback: function (token) {
+                    tokenInput.value = token;
+                },
+                'error-callback': function () {
+                    tokenInput.value = '';
+                },
+                'expired-callback': function () {
+                    tokenInput.value = '';
+                    turnstile.reset(container);
+                }
+            });
+        }
+
+        // Turnstile loads async — poll until the API is ready.
+        var attempts = 0;
+        var poll = setInterval(function () {
+            if (typeof turnstile !== 'undefined') {
+                clearInterval(poll);
+                mountTurnstile();
+            } else if (++attempts > 40) { // give up after ~4s
+                clearInterval(poll);
+            }
+        }, 100);
+    }());
+    </script>
+    <?php
+}, 30 );
 
 add_filter( 'wpcf7_spam', function ( $spam ) {
     if ( $spam ) {
