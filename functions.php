@@ -193,7 +193,7 @@ add_action( 'wp_footer', function () {
 
             console.log('NC Turnstile: calling render');
             var widgetId = turnstile.render(container, {
-                sitekey: '0x4AAAAAAACq4qpE9syPB_1JX',
+                sitekey: '1x00000000000000000000AA', // TEST KEY — replace with real key after confirming
                 size: 'normal',
                 callback: function (token) {
                     console.log('NC Turnstile: token received, length=' + token.length);
