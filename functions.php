@@ -229,6 +229,8 @@ add_filter( 'wpcf7_spam', function ( $spam ) {
     $token  = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : '';
     $secret = defined( 'NC_TURNSTILE_SECRET' ) ? NC_TURNSTILE_SECRET : '';
 
+    error_log( 'NC Turnstile — POST keys: ' . implode( ', ', array_keys( $_POST ) ) );
+    error_log( 'NC Turnstile — raw cf-turnstile-response: ' . ( isset( $_POST['cf-turnstile-response'] ) ? ( $_POST['cf-turnstile-response'] === '' ? 'EMPTY STRING' : 'present' ) : 'NOT IN POST' ) );
     error_log( 'NC Turnstile — token: ' . ( $token ? 'present (' . strlen( $token ) . ' chars)' : 'MISSING' ) );
     error_log( 'NC Turnstile — secret: ' . ( $secret ? 'defined' : 'MISSING' ) );
 
