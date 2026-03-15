@@ -191,25 +191,19 @@ add_action( 'wp_footer', function () {
             var tokenInput = document.getElementById('nc-ts-token');
             if (!container || !tokenInput || typeof turnstile === 'undefined') { return; }
 
-            console.log('NC Turnstile: calling render');
             var widgetId = turnstile.render(container, {
                 sitekey: '0x4AAAAAACq4qpE9syPB_1JX',
-                size: 'normal',
                 callback: function (token) {
-                    console.log('NC Turnstile: token received, length=' + token.length);
                     tokenInput.value = token;
                 },
-                'error-callback': function (code) {
-                    console.error('NC Turnstile: error', code);
+                'error-callback': function () {
                     tokenInput.value = '';
                 },
                 'expired-callback': function () {
-                    console.warn('NC Turnstile: expired, resetting');
                     tokenInput.value = '';
                     turnstile.reset(widgetId);
                 }
             });
-            console.log('NC Turnstile: widgetId=' + widgetId);
         }
 
         // Turnstile loads async — poll until the API is ready.
@@ -235,18 +229,11 @@ add_filter( 'wpcf7_spam', function ( $spam ) {
     $token  = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : '';
     $secret = defined( 'NC_TURNSTILE_SECRET' ) ? NC_TURNSTILE_SECRET : '';
 
-    error_log( 'NC Turnstile — POST keys: ' . implode( ', ', array_keys( $_POST ) ) );
-    error_log( 'NC Turnstile — raw cf-turnstile-response: ' . ( isset( $_POST['cf-turnstile-response'] ) ? ( $_POST['cf-turnstile-response'] === '' ? 'EMPTY STRING' : 'present' ) : 'NOT IN POST' ) );
-    error_log( 'NC Turnstile — token: ' . ( $token ? 'present (' . strlen( $token ) . ' chars)' : 'MISSING' ) );
-    error_log( 'NC Turnstile — secret: ' . ( $secret ? 'defined' : 'MISSING' ) );
-
     if ( empty( $token ) ) {
-        error_log( 'NC Turnstile — blocked: no token' );
         return true;
     }
 
     if ( empty( $secret ) ) {
-        error_log( 'NC Turnstile — secret missing, allowing through' );
         return false; // misconfigured — fail open rather than block everyone
     }
 
@@ -259,12 +246,10 @@ add_filter( 'wpcf7_spam', function ( $spam ) {
     ] );
 
     if ( is_wp_error( $response ) ) {
-        error_log( 'NC Turnstile — wp_remote_post error: ' . $response->get_error_message() );
         return false; // network error → fail open, don't block legitimate users
     }
 
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
-    error_log( 'NC Turnstile — Cloudflare response: ' . wp_json_encode( $body ) );
 
     return empty( $body['success'] ); // true = spam if verification failed
 } );
