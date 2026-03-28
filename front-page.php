@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" as="image" href="<?php echo esc_url( content_url( 'uploads/2026/02/nica-logo.webp' ) ); ?>" type="image/webp">
     <link rel="preload" as="image" href="<?php echo esc_url( content_url( 'uploads/2025/12/HEROHOME.webp' ) ); ?>" type="image/webp">
     <?php wp_head(); ?>
 </head>
