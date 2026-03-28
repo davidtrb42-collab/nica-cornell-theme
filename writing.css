@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Nica Cornell — Writing Page Stylesheet  v1.0.6  (writing.css)
+   Nica Cornell — Writing Page Stylesheet  v1.0.7  (writing.css)
    Loaded alongside homepage.css which provides the full design system:
    CSS variables, reset, nav, footer, tagline portal, nc-btn, nc-eyebrow.
    This file adds only writing-page-specific components.
@@ -159,6 +159,8 @@
     padding-top: 1.5rem;
     padding-bottom: 1.75rem;
 }
+
+.nc-wcard[hidden] { display: none; }
 
 .nc-wcard__title {
     font-family: var(--nc-serif);

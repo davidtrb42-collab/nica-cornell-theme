@@ -49,7 +49,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-writing',
             get_stylesheet_directory_uri() . '/writing.css',
             [ 'nc-homepage' ],
-            '1.0.6'
+            '1.0.7'
         );
     }
 
