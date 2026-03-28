@@ -267,7 +267,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <!-- Portrait -->
             <div class="nc-about__image-wrap">
-                <img src="<?php echo esc_url( content_url( 'uploads/2026/03/nica-avatar.webp' ) ); ?>"
+                <img src="<?php echo esc_url( content_url( 'uploads/2026/03/nica-avatarHQ.webp' ) ); ?>"
                      alt="Nica Cornell"
                      class="nc-about__img"
                      width="800"
