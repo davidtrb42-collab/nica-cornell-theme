@@ -316,30 +316,54 @@ $all_pubs = get_posts( [
 
     /* ------------------------------------------------------------------
        Tagline portal — renders tooltip as position:fixed on <body>
-       so it escapes any overflow clipping. Identical to front-page.php.
+       so it escapes any overflow clipping.
+       Desktop: hover shows/hides. Mobile: click toggles (pinned open).
        ------------------------------------------------------------------ */
     (function () {
         var portal = document.createElement('div');
         portal.className = 'nc-tagline-portal';
         document.body.appendChild(portal);
 
+        var activeReveal = null;
+
+        function positionPortal(btn, text) {
+            var r = btn.getBoundingClientRect();
+            portal.textContent = text;
+            portal.style.top = (r.bottom + 8) + 'px';
+            portal.style.opacity = '1';
+            var left = Math.min(r.left, window.innerWidth - portal.offsetWidth - 16);
+            portal.style.left = Math.max(0, left) + 'px';
+        }
+
         document.querySelectorAll('.nc-tagline-reveal').forEach(function (reveal) {
             var btn = reveal.querySelector('.nc-tagline-btn');
             var box = reveal.querySelector('.nc-tagline-box');
             if (!btn || !box) { return; }
 
+            // Desktop: hover
             reveal.addEventListener('mouseenter', function () {
-                var r = btn.getBoundingClientRect();
-                portal.textContent = box.textContent;
-                portal.style.top     = (r.bottom + 8) + 'px';
-                portal.style.opacity = '1';
-                var left = Math.min(r.left, window.innerWidth - portal.offsetWidth - 16);
-                portal.style.left = Math.max(0, left) + 'px';
+                positionPortal(btn, box.textContent);
+            });
+            reveal.addEventListener('mouseleave', function () {
+                if (activeReveal !== reveal) { portal.style.opacity = '0'; }
             });
 
-            reveal.addEventListener('mouseleave', function () {
-                portal.style.opacity = '0';
+            // Mobile / click: toggle pinned open
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (activeReveal === reveal) {
+                    activeReveal = null;
+                    portal.style.opacity = '0';
+                } else {
+                    activeReveal = reveal;
+                    positionPortal(btn, box.textContent);
+                }
             });
+        });
+
+        // Dismiss pinned portal on click outside
+        document.addEventListener('click', function () {
+            if (activeReveal) { activeReveal = null; portal.style.opacity = '0'; }
         });
     }());
 

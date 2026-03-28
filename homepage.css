@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Nica Cornell — Homepage Stylesheet  v1.2.8 — deployed
+   Nica Cornell — Homepage Stylesheet  v1.2.9 — deployed
    Fonts: Inter, Cormorant Garamond
    ========================================================================== */
 
@@ -744,6 +744,11 @@
     color: var(--nc-gray);
     margin-bottom: 1.5rem;
 }
+
+/* Specificity fix: .nc-page p { margin:0 } (0,1,1) overrides bare class rules (0,1,0).
+   Scope these margins under .nc-page to get 0,2,0 and win. */
+.nc-page .nc-carousel-card__title     { margin-bottom: 1.25rem; }
+.nc-page .nc-carousel-card__publisher { margin-bottom: 1.5rem; }
 
 /* Tagline reveal button + tooltip */
 .nc-tagline-reveal {

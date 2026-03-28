@@ -28,7 +28,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-homepage',
             get_stylesheet_directory_uri() . '/homepage.css',
             [],
-            '1.2.8'
+            '1.2.9'
         );
     }
 
@@ -41,7 +41,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-homepage',
             get_stylesheet_directory_uri() . '/homepage.css',
             [],
-            '1.2.8'
+            '1.2.9'
         );
 
         // Writing-page-specific overrides
@@ -62,7 +62,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-homepage',
             get_stylesheet_directory_uri() . '/homepage.css',
             [],
-            '1.2.8'
+            '1.2.9'
         );
 
         // Press-page-specific styles
@@ -70,7 +70,7 @@ add_action( 'wp_enqueue_scripts', function () {
             'nc-press',
             get_stylesheet_directory_uri() . '/press.css',
             [ 'nc-homepage' ],
-            '1.4.0'
+            '1.4.1'
         );
     }
 }, 20 );

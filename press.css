@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Nica Cornell — Press Page Stylesheet  v1.4.0  (press.css)
+   Nica Cornell — Press Page Stylesheet  v1.4.1  (press.css)
    Loaded alongside homepage.css which provides: CSS variables, reset, nav,
    footer, nc-btn, nc-container. This file adds only press-page components.
    ========================================================================== */
@@ -182,6 +182,9 @@
     flex-direction: column;
     gap: 0.25rem;
 }
+
+.nc-entry[hidden]      { display: none; }
+.nc-year-group[hidden] { display: none; }
 
 /* Separator between entries within the same year group */
 .nc-year-group__entries .nc-entry + .nc-entry {
