@@ -26,9 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <body <?php body_class( 'nc-page' ); ?>>
 <?php wp_body_open(); ?>
 
-<!-- =====================================================================
-     NAVIGATION — fixed, transparent → solid on scroll
-     ===================================================================== -->
+
 <nav class="nc-nav" id="nc-nav" role="navigation" aria-label="Main navigation">
 
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nc-nav__logo" aria-label="<?php bloginfo( 'name' ); ?> — Home">
@@ -59,12 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </nav>
 
 
-<!-- =====================================================================
-     HERO — 100vh, full-bleed image, tagline + CTA buttons
-     To add your hero image, go to homepage.css and set:
-         background-image: url('/wp-content/uploads/your-image.jpg');
-     on the .nc-hero selector.
-     ===================================================================== -->
+
 <section class="nc-hero" id="nc-hero" aria-label="Introduction">
 
     <div class="nc-hero__content">
@@ -81,9 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </section>
 
 
-<!-- =====================================================================
-     SECTION 1 — Featured Publications (3 static cards)
-     ===================================================================== -->
+
 <section class="nc-section nc-featured-pubs" id="nc-publications" aria-label="Featured Publications">
 
     <div class="nc-container">
@@ -157,16 +148,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <?php endforeach; ?>
 
-        </div><!-- .nc-featured-grid -->
+        </div>
 
-    </div><!-- .nc-container -->
+    </div>
 
 </section>
 
 
-<!-- =====================================================================
-     SECTION 2 — All Publications (5-across slider)
-     ===================================================================== -->
+
 <section class="nc-section nc-all-pubs" aria-label="All Publications">
 
     <div class="nc-container">
@@ -244,28 +233,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <?php endforeach; ?>
 
-            </div><!-- .nc-slider-track -->
-        </div><!-- .nc-slider-viewport -->
+            </div>
+        </div>
 
         <div class="nc-slider-nav">
             <button class="nc-slider-nav__btn" id="nc-slider-prev" aria-label="Previous publications">&#8592;</button>
             <button class="nc-slider-nav__btn" id="nc-slider-next" aria-label="Next publications">&#8594;</button>
         </div>
 
-    </div><!-- .nc-container -->
+    </div>
 
 </section>
 
 
-<!-- =====================================================================
-     SECTION 3 — About the Author
-     ===================================================================== -->
+
 <section class="nc-section nc-about" id="nc-about" aria-label="About the author">
 
     <div class="nc-container">
         <div class="nc-about__grid">
 
-            <!-- Portrait -->
+            
             <div class="nc-about__image-wrap">
                 <img src="<?php echo esc_url( content_url( 'uploads/2026/03/nica-avatarHQ.webp' ) ); ?>"
                      alt="Nica Cornell"
@@ -275,7 +262,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                      loading="lazy">
             </div>
 
-            <!-- Text -->
+            
             <div class="nc-about__text">
 
                 <h2 class="nc-about__name">Nica Cornell</h2>
@@ -290,28 +277,26 @@ if ( ! defined( 'ABSPATH' ) ) {
                     Get in Touch
                 </a>
 
-            </div><!-- .nc-about__text -->
+            </div>
 
-        </div><!-- .nc-about__grid -->
-    </div><!-- .nc-container -->
+        </div>
+    </div>
 
 </section>
 
 
-<!-- =====================================================================
-     SECTION 4 — Contact
-     ===================================================================== -->
+
 <section class="nc-section nc-contact" id="nc-contact" aria-label="Contact">
 
     <div class="nc-container">
         <div class="nc-contact__grid">
 
-            <!-- Left: heading -->
+            
             <div class="nc-contact__intro">
                 <h2 class="nc-contact__heading">Get in Touch</h2>
             </div>
 
-            <!-- Right: form -->
+            
             <div class="nc-contact__form">
                 <?php echo do_shortcode('[contact-form-7 id="d03532c" title="Contact Me"]'); ?>
             </div>
@@ -322,9 +307,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </section>
 
 
-<!-- =====================================================================
-     FOOTER — minimal
-     ===================================================================== -->
+
 <footer class="nc-footer" role="contentinfo">
     <div class="nc-container">
 

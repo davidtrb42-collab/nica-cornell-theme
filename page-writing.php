@@ -43,9 +43,7 @@ $all_pubs = get_posts( [
 <?php wp_body_open(); ?>
 
 
-<!-- =====================================================================
-     NAVIGATION — starts solid (no hero beneath it)
-     ===================================================================== -->
+
 <nav class="nc-nav is-scrolled" id="nc-nav" role="navigation" aria-label="Main navigation">
 
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nc-nav__logo" aria-label="<?php bloginfo( 'name' ); ?> — Home">
@@ -76,9 +74,7 @@ $all_pubs = get_posts( [
 </nav>
 
 
-<!-- =====================================================================
-     PAGE HEADER — cream bg, editorial intro
-     ===================================================================== -->
+
 <header class="nc-writing-header" aria-label="Writing page header">
     <div class="nc-container">
         <h1 class="nc-writing-title">All Publications</h1>
@@ -86,15 +82,13 @@ $all_pubs = get_posts( [
 </header>
 
 
-<!-- =====================================================================
-     CONTROLS BAR — sticky, filter tabs + sort select
-     ===================================================================== -->
+
 <div class="nc-writing-controls" id="nc-writing-controls">
     <div class="nc-container">
 
         <div class="nc-writing-controls__inner">
 
-            <!-- Filter by type -->
+            
             <div class="nc-sort-wrap">
                 <label class="nc-sort-label" for="nc-filter-select">Type</label>
                 <select class="nc-sort-select" id="nc-filter-select" aria-label="Filter publications by type">
@@ -109,7 +103,7 @@ $all_pubs = get_posts( [
                 </select>
             </div>
 
-            <!-- Sort -->
+            
             <div class="nc-sort-wrap">
                 <label class="nc-sort-label" for="nc-sort-select">Sort</label>
                 <select class="nc-sort-select" id="nc-sort-select" aria-label="Sort publications">
@@ -120,15 +114,13 @@ $all_pubs = get_posts( [
                 </select>
             </div>
 
-        </div><!-- .nc-writing-controls__inner -->
+        </div>
 
     </div>
-</div><!-- .nc-writing-controls -->
+</div>
 
 
-<!-- =====================================================================
-     PUBLICATIONS GRID
-     ===================================================================== -->
+
 <main class="nc-writing-main" id="nc-writing-main">
     <div class="nc-container">
 
@@ -164,7 +156,7 @@ $all_pubs = get_posts( [
                      data-year="<?php echo esc_attr( $pub_year ); ?>"
                      data-type="<?php echo esc_attr( $pub_type ); ?>">
 
-                <!-- Title -->
+                
                 <p class="nc-wcard__title">
                     <?php if ( $pub_ext_url ) : ?>
                         <a href="<?php echo $pub_ext_url; ?>" target="_blank" rel="noopener noreferrer">
@@ -175,7 +167,7 @@ $all_pubs = get_posts( [
                     <?php endif; ?>
                 </p>
                 <br>
-                <!-- Type · Year meta line -->
+                
                 <p class="nc-wcard__meta">
                     <?php if ( $pub_type ) : ?>
                         <span class="nc-wcard__type">
@@ -194,7 +186,7 @@ $all_pubs = get_posts( [
                 <?php else : ?>
                     <br>
                 <?php endif; ?>
-                <!-- Cover image -->
+                
                 <div class="nc-wcard__img-wrap">
                     <?php if ( $thumb_id ) : ?>
                         <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
@@ -206,7 +198,7 @@ $all_pubs = get_posts( [
                     <?php endif; ?>
                 </div>
 
-                <!-- Tagline button (reuses homepage portal pattern) -->
+                
                 <?php if ( $pub_tagline ) : ?>
                     <div class="nc-tagline-reveal">
                         <button class="nc-tagline-btn" type="button">View tagline</button>
@@ -218,7 +210,7 @@ $all_pubs = get_posts( [
 
             <?php endforeach; ?>
 
-        </div><!-- .nc-writing-grid -->
+        </div>
 
         <p class="nc-writing-empty" id="nc-writing-empty" hidden aria-live="polite">
             No publications found for this filter.
@@ -228,9 +220,7 @@ $all_pubs = get_posts( [
 </main>
 
 
-<!-- =====================================================================
-     FOOTER — identical to front-page.php
-     ===================================================================== -->
+
 <footer class="nc-footer" role="contentinfo">
     <div class="nc-container">
 

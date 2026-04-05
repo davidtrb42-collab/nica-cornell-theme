@@ -108,9 +108,7 @@ $press = [
 <?php wp_body_open(); ?>
 
 
-<!-- =====================================================================
-     NAVIGATION — starts solid (no hero beneath it)
-     ===================================================================== -->
+
 <nav class="nc-nav is-scrolled" id="nc-nav" role="navigation" aria-label="Main navigation">
 
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nc-nav__logo" aria-label="<?php bloginfo( 'name' ); ?> — Home">
@@ -141,9 +139,7 @@ $press = [
 </nav>
 
 
-<!-- =====================================================================
-     PAGE HEADER — cream bg, matches writing page header
-     ===================================================================== -->
+
 <header class="nc-press-header" aria-label="Press page header">
     <div class="nc-container">
         <h1 class="nc-press-title">Press &amp; Presentations</h1>
@@ -151,9 +147,7 @@ $press = [
 </header>
 
 
-<!-- =====================================================================
-     CONTROLS BAR — sticky, type filter
-     ===================================================================== -->
+
 <div class="nc-press-controls" id="nc-press-controls">
     <div class="nc-container">
         <div class="nc-press-controls__inner">
@@ -173,9 +167,7 @@ $press = [
 </div>
 
 
-<!-- =====================================================================
-     MAIN CONTENT — year-anchor layout, two sections
-     ===================================================================== -->
+
 <main class="nc-press-main" id="nc-press-main">
     <div class="nc-container">
 
@@ -191,7 +183,7 @@ $press = [
         }
         ?>
 
-        <!-- Presentations & Awards -->
+        
         <section class="nc-press-section" aria-label="Presentations and Awards">
 
             <?php foreach ( nc_group_by_year( $presentations ) as $year => $entries ) : ?>
@@ -225,7 +217,7 @@ $press = [
         </section>
 
 
-        <!-- Press -->
+        
         <section class="nc-press-section" aria-label="Press coverage">
             <h2 class="nc-press-section__label">Press</h2>
 
@@ -264,9 +256,7 @@ $press = [
 </main>
 
 
-<!-- =====================================================================
-     FOOTER
-     ===================================================================== -->
+
 <footer class="nc-footer" role="contentinfo">
     <div class="nc-container">
 
